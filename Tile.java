@@ -14,7 +14,7 @@ public class Tile {
     }
 
     public void growCarrot(){
-        /** grows carrot by 25 % **/
+        /* grows carrot by 25 % **/
         if (carrotGrowth < 100){
             carrotGrowth += 25;
         }

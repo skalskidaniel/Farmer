@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Displayer {
+
     private static Displayer instance;
     private Scanner scanner;
 
@@ -37,5 +38,9 @@ public class Displayer {
             }
         }
         return choice;
+    }
+
+    public void displayField(){
+        // TODO display grid, find farmers and animals, print them on top
     }
 }

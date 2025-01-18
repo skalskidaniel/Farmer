@@ -1,0 +1,20 @@
+Welcome to farmer visualisation.
+Enter the size of a field: _
+Enter the number of farmers: _
+Enter the number of rabbits: _
+
+🐇 - rabbit
+🧑‍🌾 - farmer
+🐕 - dog
+🥕 - carrot
+🌾 - damaged land
+🌱 - growing carrot
+🪹 - empty land
+
+ ----------------------
+|                      |
+|                      |
+|                      |
+|                      |
+|                      |
+ ----------------------

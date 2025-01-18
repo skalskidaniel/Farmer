@@ -1,23 +1,24 @@
 import java.util.Scanner;
 
-public class Interface {
-    private static Interface instance;
+public class Displayer {
+    private static Displayer instance;
     private Scanner scanner;
 
-    private Interface(){
+    private Displayer(){
         scanner = new Scanner(System.in);
     }
 
-    public static Interface getInstance(){
+    public static Displayer getInstance(){
         if (instance == null){
-            instance = new Interface();
+            instance = new Displayer();
         }
         return instance;
     }
 
     public static void displayMainMenu(){
         System.out.println("Welcome to farmer visualisation.");
-
+        System.out.println("1. Start simulation");
+        System.out.println("2. Exit");
     }
 
     public int getChoice(int min, int max){

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Displayer {
@@ -40,7 +41,38 @@ public class Displayer {
         return choice;
     }
 
-    public void displayField(){
+    public void displayField(Field f){
         // TODO display grid, find farmers and animals, print them on top
+
+//        🐇 - rabbit
+//        🧑‍🌾 - farmer
+//        🐕 - dog
+//        🥕 - carrot
+//        🌾 - damaged land
+//        🌱 - growing carrot
+//        🪹 - empty land
+
+        ArrayList<String> view = new ArrayList<>();
+
+        // construct a view of field
+        // TODO display actual item from grid
+        String horizontalBorder = " " + "-".repeat(f.size * 2) + " ";
+        view.add(horizontalBorder);
+        for (int i = 0; i < f.size; ++i){
+            String row = "| ";
+            for (int j = 0; j < f.size; ++j) {
+                row += "." + " ";
+            }
+            row += "|";
+            view.add(row);
+        }
+        view.add(horizontalBorder);
+
+        // TODO add all species to a view
+
+        // print view
+        for (String row : view){
+            System.out.println(row);
+        }
     }
 }

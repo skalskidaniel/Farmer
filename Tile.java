@@ -15,6 +15,7 @@ public class Tile {
 
     public void growCarrot(){
         /* grows carrot by 25 % **/
+        // TODO randomize growth
         if (carrotGrowth < 100){
             carrotGrowth += 25;
         }

@@ -20,6 +20,7 @@ public class Main {
         System.out.print("Enter the number of rabbits (no more than your field size): ");
         int numOfRabbits = displayer.getChoice(0, sizeOfField);
 
-
+        Field f = new Field(10);
+        displayer.displayField(f);
     }
 }

@@ -1,6 +1,10 @@
 public class Field {
-    private final int size;
+    /** [0,0] position is in the upper left corner **/
+    public final int size;
     public Tile[][] grid;
+    public Farmer[] farmers;
+//    public Dog[] dogs;
+//    public Rabbit[] rabbits;
 
     public Field(int size){
         this.size = size;

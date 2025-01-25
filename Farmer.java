@@ -1,8 +1,7 @@
 
 
 public class Farmer extends Movable {
-    public boolean isRepairing = false;
-    public int repairProgress = 0;
+    public int repairState = 0;
     public Dog dog;
 
     Farmer(int n) {
@@ -15,11 +14,10 @@ public class Farmer extends Movable {
     }
 
     private void repair(int X, int Y) {
-        // TODO
-//        isRepairing -= 1;
-//        if (isRepairing == 0) {
-//            field.grid[X][Y].isDamaged = false;
-//        }
+        repairState -= 1;
+        if (repairState == 0) {
+            field.grid[X][Y].isDamaged = false;
+        }
     }
 
     private void plant(int X, int Y) {
@@ -32,73 +30,32 @@ public class Farmer extends Movable {
             int rabbitX = rabbitPosition[0];
             int rabbitY = rabbitPosition[1];
             if (calculateDistance(X, Y, rabbitX, rabbitY) <= 5) {
-                notifyDog(rabbitX, rabbitY);
+                notifyDog(i);
             }
         }
     }
 
-    private void notifyDog(int rabbitX, int rabbitY) {
+    private void notifyDog(int i) {
         if (!dog.isChasing) {
-            dog.findRabbit(rabbitX, rabbitY);
+            dog.chasedRabbit = i;
+            dog.isChasing = true;
         }
     }
-
-    private boolean isValidMove(int X, int Y) {
-        //TODO
-        return false;
-    }
-
 
     public void move() {
-        if (isRepairing) {
+        if (repairState >0) {
             repair(posX, posY);
         } else {
-            while (true) {
-                int direction = randomGenerator.nextInt(4);
-                boolean moved = false;
-                switch (direction) {
-                    case 0:
-                        moveUp();
-                        if (isValidMove(posX, posY)) {
-                            moved = true;
-                            break;
-                        } else {
-                            moveDown();
-                            break;
-                        }
-                    case 1:
-                        moveDown();
-                        if (isValidMove(posX, posY)) {
-                            moved = true;
-                            break;
-                        } else {
-                            moveUp();
-                            break;
-                        }
-                    case 2:
-                        moveLeft();
-                        if (isValidMove(posX, posY)) {
-                            moved = true;
-                            break;
-                        } else {
-                            moveRight();
-                            break;
-                        }
-                    case 3:
-                        moveRight();
-                        if (isValidMove(posX, posY)) {
-                            moved = true;
-                            break;
-                        } else {
-                            moveLeft();
-                            break;
-                        }
-                }
-                if (moved) {
-                    break;
-                }
+            moveRandomly();
+            int[] position = getPosition();
+            int X = position[0];
+            int Y = position[1];
+            if(field.grid[X][Y].isDamaged){
+                repair(X,Y);
+            } else if (!field.grid[X][Y].isPlanted){
+                plant(X,Y);
             }
+            lookForRabbits(X,Y);
         }
-
     }
 }

@@ -7,11 +7,6 @@ public class Tile {
     public boolean isDamaged = false;
     private final Random randomGenerator = new Random();
 
-
-    public void makeDamage(){
-        // TODO method would rather be in rabbit class
-    }
-
     public void growCarrot(){
         /* grows carrot by [1;25] % **/
         if (carrotGrowth < 100){

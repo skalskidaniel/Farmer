@@ -4,7 +4,7 @@ public class Main {
         final int MAX_FIELD_SIZE = 50;
         Displayer displayer = Displayer.getInstance();
 
-        displayer.displayMainMenu();
+        Displayer.displayMainMenu();
         int choice = displayer.getChoice(1, 2);
         if (choice == 2){
             System.exit(0);

@@ -3,9 +3,9 @@ import static java.lang.Math.min;
 import java.util.Random;
 
 public abstract class Movable {
-    int posX;
-    int posY;
-    Tile[][] field;
+    public int posX;
+    public int posY;
+    protected Field field = Field.getInstance();
     protected int FIELD_SIZE;
     protected final Random randomGenerator = new Random();
 

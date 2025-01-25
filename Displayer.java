@@ -10,30 +10,6 @@ public class Displayer {
         scanner = new Scanner(System.in);
     }
 
-    private String formatEmoji(String emoji) {
-        return String.format("%-2s", emoji); // Adjust padding as needed
-    }
-
-    private void replaceEmoji(ArrayList<String> view, int posX, int posY, String emoji) {
-        String row = view.get(posY + 1); // Get the correct row
-        int charIndex = posX * 3 + 2;   // Calculate index with spacing
-        int startIndex = getCodePointIndex(row, charIndex);
-        int endIndex = getCodePointIndex(row, charIndex + emoji.length());
-
-        if (startIndex >= 0 && endIndex <= row.length()) {
-            StringBuilder sb = new StringBuilder(row);
-            sb.replace(startIndex, endIndex, emoji);
-            view.set(posY + 1, sb.toString());
-        }
-    }
-
-    private int getCodePointIndex(String str, int charIndex) {
-        if (charIndex < 0 || charIndex >= str.length()) {
-            return Math.min(Math.max(charIndex, 0), str.length()); // Clamp within valid bounds
-        }
-        return str.offsetByCodePoints(0, charIndex);
-    }
-
     public static Displayer getInstance(){
         if (instance == null){
             instance = new Displayer();

@@ -1,4 +1,5 @@
 import java.util.Random;
+import static java.lang.Math.min;
 
 public class Tile {
     public String state;
@@ -8,9 +9,9 @@ public class Tile {
     private final Random randomGenerator = new Random();
 
     public void growCarrot(){
-        /* grows carrot by [1;25] % **/
+        /** grows carrot by [20;50] % **/
         if (carrotGrowth < 100){
-            carrotGrowth += randomGenerator.nextInt(1, 25);
+            carrotGrowth = min(100, carrotGrowth + randomGenerator.nextInt(20, 50));
         }
     }
 }

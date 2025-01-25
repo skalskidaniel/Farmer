@@ -7,6 +7,7 @@ public class Rabbit extends Movable{
     }
 
     public void makeDamage(int X, int Y){
+        field.grid[posX][posY].isPlanted = false;
         field.grid[posX][posY].isDamaged = true;
     }
 

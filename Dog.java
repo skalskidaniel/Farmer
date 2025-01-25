@@ -21,6 +21,7 @@ public class Dog extends Movable{
     }
 
     public void findRabbit(int i){
+        // TODO index out of bound
         chasedRabbit = i;
         isChasing = true;
         int[] rabbitPosition = field.rabbits.get(i).getPosition();
@@ -32,7 +33,7 @@ public class Dog extends Movable{
             return;
         }
         boolean moved = false;
-        int checked[] = {0,0,0,0};
+        int[] checked = {0,0,0,0};
         int oldPosX = posX;
         int oldPosY = posY;
         while(!moved) {
@@ -83,13 +84,19 @@ public class Dog extends Movable{
                 break;
             }
         }
+        if (posX == rabbitX && posY == rabbitY){
+            field.rabbits.remove(chasedRabbit);
+            isChasing = false;
+            chasedRabbit = -1;
+        }
+
     }
 
     public void move(){
         if(!isChasing){
             moveRandomly();
             lookForRabbits(posX,posY);
-        } else{
+        } else {
             findRabbit(chasedRabbit);
         }
     }

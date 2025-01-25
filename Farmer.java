@@ -48,6 +48,7 @@ public class Farmer extends Movable {
         } else {
             moveRandomly();
             if(field.grid[posX][posY].isDamaged){
+                repairState = 3;
                 repair(posX,posY);
             } else if (!field.grid[posX][posY].isPlanted){
                 plant(posX,posY);

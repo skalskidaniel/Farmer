@@ -1,8 +1,11 @@
+import java.util.Random;
+
 public class Tile {
     public String state;
     public int carrotGrowth; // as percentage, if 100 then fully grown, can be eaten
-    private boolean isPlanted = false;
-    private boolean isDamaged = false;
+    public boolean isPlanted = false;
+    public boolean isDamaged = false;
+    private final Random randomGenerator = new Random();
 
 
     public void makeDamage(){
@@ -14,10 +17,9 @@ public class Tile {
     }
 
     public void growCarrot(){
-        /* grows carrot by 25 % **/
-        // TODO randomize growth
+        /* grows carrot by [1;25] % **/
         if (carrotGrowth < 100){
-            carrotGrowth += 25;
+            carrotGrowth += randomGenerator.nextInt(1, 25);
         }
     }
 }

@@ -11,6 +11,7 @@ Enter the number of rabbits: _
 🌱 - growing carrot
 🪹 - empty land
 
+
  ----------------------
 |                      |
 |                      |

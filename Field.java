@@ -13,6 +13,10 @@ public class Field {
     public Field(int sizeOfField, int numOfFarmers, int numOfRabbits){
         this.size = sizeOfField;
         this.grid = new Tile[sizeOfField][sizeOfField];
+        this.farmers = new ArrayList<>();
+        this.dogs = new ArrayList<>();
+        this.rabbits = new ArrayList<>();
+
         initializeGrid();
 
         for (int i = 0; i < numOfFarmers; ++i){

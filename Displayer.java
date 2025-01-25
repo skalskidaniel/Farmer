@@ -4,10 +4,34 @@ import java.util.Scanner;
 public class Displayer {
 
     private static Displayer instance;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     private Displayer(){
         scanner = new Scanner(System.in);
+    }
+
+    private String formatEmoji(String emoji) {
+        return String.format("%-2s", emoji); // Adjust padding as needed
+    }
+
+    private void replaceEmoji(ArrayList<String> view, int posX, int posY, String emoji) {
+        String row = view.get(posY + 1); // Get the correct row
+        int charIndex = posX * 3 + 2;   // Calculate index with spacing
+        int startIndex = getCodePointIndex(row, charIndex);
+        int endIndex = getCodePointIndex(row, charIndex + emoji.length());
+
+        if (startIndex >= 0 && endIndex <= row.length()) {
+            StringBuilder sb = new StringBuilder(row);
+            sb.replace(startIndex, endIndex, emoji);
+            view.set(posY + 1, sb.toString());
+        }
+    }
+
+    private int getCodePointIndex(String str, int charIndex) {
+        if (charIndex < 0 || charIndex >= str.length()) {
+            return Math.min(Math.max(charIndex, 0), str.length()); // Clamp within valid bounds
+        }
+        return str.offsetByCodePoints(0, charIndex);
     }
 
     public static Displayer getInstance(){
@@ -41,43 +65,52 @@ public class Displayer {
         return choice;
     }
 
-    public void displayField(Field f){
-        // TODO display grid, find farmers and animals, print them on top
+    public void displayField(Field f) {
+        final String RABBIT = "🐇 ";
+        final String FARMER = "🧑‍🌾 ";
+        final String DOG = "🐕 ";
+        final String CARROT = "🥕 ";
+        final String GROWING_CARROT = "🌱 ";
+        final String DAMAGED_LAND = "🌾 ";
+        final String EMPTY_LAND = "🪹 ";
 
-//        🐇 - rabbit
-//        🧑‍🌾 - farmer
-//        🐕 - dog
-//        🥕 - carrot
-//        🌾 - damaged land
-//        🌱 - growing carrot
-//        🪹 - empty land
+        String[][] view = new String[f.size][f.size];
 
-        ArrayList<String> view = new ArrayList<>();
-
-        // construct a view of field
-        // TODO display actual item from grid
-        String horizontalBorder = " " + "-".repeat(f.size * 2) + " ";
-        view.add(horizontalBorder);
-        for (int i = 0; i < f.size; ++i){
-            String row = "| ";
-            for (int j = 0; j < f.size; ++j) {
-                row += "." + " ";
+        for (int i = 0; i < f.size; i++) {
+            for (int j = 0; j < f.size; j++) {
+                if (f.grid[i][j].isPlanted) {
+                    if (f.grid[i][j].carrotGrowth >= 100) {
+                        view[i][j] = CARROT;
+                    } else {
+                        view[i][j] = GROWING_CARROT;
+                    }
+                } else if (f.grid[i][j].isDamaged) {
+                    view[i][j] = DAMAGED_LAND;
+                } else {
+                    view[i][j] = EMPTY_LAND;
+                }
             }
-            row += "|";
-            view.add(row);
-        }
-        view.add(horizontalBorder);
-
-        // TODO add all species to a view
-        for (Rabbit r : f.rabbits){
-            StringBuilder sb = new StringBuilder(view.get(r.posY));
-            sb.setCharAt(r.posX, 🐇);
-            view.set(r.posY, sb.toString());
         }
 
-        // print view
-        for (String row : view){
-            System.out.println(row);
+        for (Rabbit rabbit : f.rabbits) {
+            view[rabbit.posY][rabbit.posX] = RABBIT;
+        }
+        for (Dog dog : f.dogs) {
+            view[dog.posY][dog.posX] = DOG;
+        }
+        for (Farmer farmer : f.farmers) {
+            view[farmer.posY][farmer.posX] = FARMER;
+        }
+
+        int size = view.length;
+
+        System.out.println();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(view[i][j]);
+            }
+            System.out.println();
         }
     }
+
 }

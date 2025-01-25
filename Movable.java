@@ -1,11 +1,11 @@
-import java.util.Random;
-
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import java.util.Random;
 
 public abstract class Movable {
     int posX;
     int posY;
+    Tile[][] field;
     protected int FIELD_SIZE;
     protected final Random randomGenerator = new Random();
 
@@ -27,5 +27,9 @@ public abstract class Movable {
 
     protected void moveRight(){
         posY = min(posY + 1, FIELD_SIZE - 1);
+    }
+    
+    protected int calculateDistance(int X1, int Y1, int X2, int Y2){
+        return Math.abs(X1 - X2) + Math.abs(Y1 - Y2);
     }
 }

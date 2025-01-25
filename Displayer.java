@@ -69,6 +69,11 @@ public class Displayer {
         view.add(horizontalBorder);
 
         // TODO add all species to a view
+        for (Rabbit r : f.rabbits){
+            StringBuilder sb = new StringBuilder(view.get(r.posY));
+            sb.setCharAt(r.posX, 🐇);
+            view.set(r.posY, sb.toString());
+        }
 
         // print view
         for (String row : view){

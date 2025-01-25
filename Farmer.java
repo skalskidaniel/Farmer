@@ -47,15 +47,12 @@ public class Farmer extends Movable {
             repair(posX, posY);
         } else {
             moveRandomly();
-            int[] position = getPosition();
-            int X = position[0];
-            int Y = position[1];
-            if(field.grid[X][Y].isDamaged){
-                repair(X,Y);
-            } else if (!field.grid[X][Y].isPlanted){
-                plant(X,Y);
+            if(field.grid[posX][posY].isDamaged){
+                repair(posX,posY);
+            } else if (!field.grid[posX][posY].isPlanted){
+                plant(posX,posY);
             }
-            lookForRabbits(X,Y);
+            lookForRabbits(posX,posY);
         }
     }
 }

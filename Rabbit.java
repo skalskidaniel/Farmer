@@ -12,9 +12,6 @@ public class Rabbit extends Movable{
 
     public void move(){
         moveRandomly();
-        int[] position = getPosition();
-        int X = position[0];
-        int Y = position[1];
         makeDamage(posX, posY);
     }
 }

@@ -9,6 +9,8 @@ public class Field {
     public ArrayList<Dog> dogs;
     public ArrayList<Rabbit> rabbits;
     private final Random randomGenerator = new Random();
+    private final int numOfFarmers;
+    private final int numOfRabbits;
 
     public Field(int sizeOfField, int numOfFarmers, int numOfRabbits){
         this.size = sizeOfField;
@@ -16,17 +18,9 @@ public class Field {
         this.farmers = new ArrayList<>();
         this.dogs = new ArrayList<>();
         this.rabbits = new ArrayList<>();
-
+        this.numOfFarmers = numOfFarmers;
+        this.numOfRabbits = numOfRabbits;
         initializeGrid();
-
-        for (int i = 0; i < numOfFarmers; ++i){
-            farmers.add(new Farmer(sizeOfField));
-            dogs.add(new Dog(sizeOfField));
-        }
-
-        for (int i = 0; i < numOfRabbits; ++i){
-            rabbits.add(new Rabbit(sizeOfField));
-        }
     }
 
     private void initializeGrid() {
@@ -34,6 +28,15 @@ public class Field {
             for (int j = 0; j < size; ++j) {
                 grid[i][j] = new Tile();
             }
+        }
+
+        for (int i = 0; i < numOfRabbits; ++i){
+            rabbits.add(new Rabbit(size, grid));
+        }
+
+        for (int i = 0; i < numOfFarmers; ++i){
+            farmers.add(new Farmer(size, grid, rabbits));
+            dogs.add(new Dog(size, grid));
         }
     }
 }

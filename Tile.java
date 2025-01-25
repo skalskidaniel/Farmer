@@ -12,10 +12,6 @@ public class Tile {
         // TODO method would rather be in rabbit class
     }
 
-    public void repair(){
-        // TODO method would rather be in farmer class
-    }
-
     public void growCarrot(){
         /* grows carrot by [1;25] % **/
         if (carrotGrowth < 100){

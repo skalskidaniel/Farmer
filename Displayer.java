@@ -68,7 +68,7 @@ public class Displayer {
         }
 
         for (Rabbit rabbit : f.rabbits) {
-            view[rabbit.posY][rabbit.posX] = RABBIT;
+            if(f.eatenRabbits.get(f.rabbits.indexOf(rabbit)) == 0) view[rabbit.posY][rabbit.posX] = RABBIT;
         }
         for (Dog dog : f.dogs) {
             view[dog.posY][dog.posX] = DOG;

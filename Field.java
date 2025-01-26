@@ -8,6 +8,7 @@ public class Field {
     public ArrayList<Farmer> farmers;
     public ArrayList<Dog> dogs;
     public ArrayList<Rabbit> rabbits;
+    public ArrayList<Integer> eatenRabbits;
     private final int numOfFarmers;
     private final int numOfRabbits;
 
@@ -23,6 +24,7 @@ public class Field {
         this.grid = new Tile[sizeOfField][sizeOfField];
         this.farmers = new ArrayList<>();
         this.dogs = new ArrayList<>();
+        this.eatenRabbits = new ArrayList<>();
         this.rabbits = new ArrayList<>();
         this.numOfFarmers = numOfFarmers;
         this.numOfRabbits = numOfRabbits;
@@ -39,10 +41,20 @@ public class Field {
 
         for (int i = 0; i < numOfRabbits; ++i){
             instance.rabbits.add(new Rabbit(size));
+            instance.eatenRabbits.add(0);
         }
 
         for (int i = 0; i < numOfFarmers; ++i){
             instance.farmers.add(new Farmer(size));
         }
+    }
+
+    public boolean isEnded(){
+        for(int i = 0; i < rabbits.size(); ++i){
+            if(eatenRabbits.get(i) == 0){
+                return false;
+            }
+        }
+        return true;
     }
 }

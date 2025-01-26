@@ -1,5 +1,4 @@
 import java.util.Random;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -15,18 +14,18 @@ public class Main {
         System.out.print("Enter the size of a field (max = " + MAX_FIELD_SIZE + "): ");
         int sizeOfField = displayer.getChoice(1, MAX_FIELD_SIZE);
 
-        System.out.print("Enter the number of farmers (no more than " + sizeOfField + " squared): ");
-        int numOfFarmers = displayer.getChoice(0, sizeOfField * sizeOfField);
+        System.out.print("Enter the number of farmers (no more than 1/4 of " + sizeOfField+ "): ");
+        int numOfFarmers = displayer.getChoice(0, sizeOfField/4);
 
-        System.out.print("Enter the number of rabbits (no more than " + sizeOfField + " squared): ");
-        int numOfRabbits = displayer.getChoice(0, sizeOfField * sizeOfField);
+        System.out.print("Enter the number of rabbits (no more than 1/4 of " + sizeOfField + "): ");
+        int numOfRabbits = displayer.getChoice(0, sizeOfField/4);
 
         Field f = new Field(sizeOfField, numOfFarmers, numOfRabbits);
 
         Object displayLock = new Object();
 
         Thread farmersThread = new Thread(() -> {
-            while (true) {
+            while (!f.isEnded()) {
                 for (Farmer farmer : f.farmers) {
                     farmer.move();
                 }
@@ -43,7 +42,7 @@ public class Main {
         });
 
         Thread dogsThread = new Thread(() -> {
-            while (true) {
+            while (!f.isEnded()) {
                 for (Dog dog : f.dogs) {
                     dog.move();
                 }
@@ -60,12 +59,16 @@ public class Main {
         });
 
         Thread rabbitsThread = new Thread(() -> {
-            while (true) {
+            while (!f.isEnded()) {
                 for (Rabbit rabbit : f.rabbits) {
-                    rabbit.move();
+                    if(f.eatenRabbits.get(f.rabbits.indexOf(rabbit)) == 0){
+                        rabbit.move();
+                    }
                 }
                 synchronized (displayLock) {
-                    displayer.displayField(f);
+                    if(f.eatenRabbits.get(f.rabbits.indexOf(f.rabbits.get(0))) == 0){
+                        displayer.displayField(f);
+                    }
                 }
                 try {
                     Thread.sleep(1000);
@@ -77,7 +80,7 @@ public class Main {
         });
 
         Thread growThread = new Thread(() -> {
-            while (true){
+            while (!f.isEnded()) {
                 for (int i = 0; i < sizeOfField; ++i){
                     for (int j = 0; j < sizeOfField; ++j){
                         if(f.grid[i][j].isPlanted){
@@ -97,7 +100,6 @@ public class Main {
             }
         });
 
-        // TODO after some time rabbits seem to get stuck and dont move anymore
         farmersThread.start();
         dogsThread.start();
         rabbitsThread.start();

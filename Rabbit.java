@@ -1,4 +1,6 @@
 public class Rabbit extends Movable{
+    public int damagingState = 0;
+    public boolean isDamaging = false;
 
     Rabbit(int n){
         FIELD_SIZE = n;
@@ -7,12 +9,23 @@ public class Rabbit extends Movable{
     }
 
     public void makeDamage(int X, int Y){
-        field.grid[posX][posY].isPlanted = false;
-        field.grid[posX][posY].isDamaged = true;
+        isDamaging = true;
+        if (field.grid[X][Y].isPlanted){
+            damagingState++;
+            if (damagingState == 3){
+                field.grid[X][Y].isPlanted = false;
+                field.grid[X][Y].isDamaged = true;
+                damagingState = 0;
+                isDamaging = false;
+            }
+        }
     }
 
     public void move(){
-        moveRandomly();
-        makeDamage(posX, posY);
+        if(field.grid[posX][posY].isPlanted){
+            makeDamage(posX, posY);
+        } else if(!isDamaging){
+            moveRandomly();
+        }
     }
 }

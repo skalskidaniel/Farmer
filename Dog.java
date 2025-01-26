@@ -20,8 +20,26 @@ public class Dog extends Movable{
         }
     }
 
+    public boolean isValidMove(int X, int Y) {
+        int counter = 0;
+        for (int i = 0; i < field.dogs.size(); ++i) {
+            int[] dogPosition = field.dogs.get(i).getPosition();
+            int dogX = dogPosition[0];
+            int dogY = dogPosition[1];
+            int[] farmerPosition = field.farmers.get(i).getPosition();
+            int farmerX = farmerPosition[0];
+            int farmerY = farmerPosition[1];
+            if ((X == dogX && Y == dogY) || (X == farmerX && Y == farmerY)) {
+                counter++;
+            }
+        }
+        if (counter != 1) {
+            return false;
+        }
+        return true;
+    }
+
     public void findRabbit(int i){
-        // TODO index out of bound
         chasedRabbit = i;
         isChasing = true;
         int[] rabbitPosition = field.rabbits.get(i).getPosition();
@@ -30,6 +48,7 @@ public class Dog extends Movable{
         if(calculateDistance(posX, posY, rabbitX, rabbitY) > 5){
             isChasing = false;
             chasedRabbit = -1;
+            moveRandomly();
             return;
         }
         boolean moved = false;
@@ -85,9 +104,16 @@ public class Dog extends Movable{
             }
         }
         if (posX == rabbitX && posY == rabbitY){
-            field.rabbits.remove(chasedRabbit);
+            field.eatenRabbits.set(i, 1);
             isChasing = false;
             chasedRabbit = -1;
+            for(i = 0; i < field.farmers.size(); ++i){
+                Dog otherDog = field.dogs.get(i);
+                if(otherDog.isChasing && otherDog.chasedRabbit == this.chasedRabbit){
+                    otherDog.isChasing = false;
+                    otherDog.chasedRabbit = -1;
+                }
+            }
         }
 
     }

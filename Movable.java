@@ -30,24 +30,27 @@ public abstract class Movable{
     }
 
     protected boolean isValidMove(int X, int Y){
-        // TODO does not work
-//        for (int i = 0; i < field.rabbits.size(); ++i){
-//            int[] rabbitPosition = field.rabbits.get(i).getPosition();
-//            int rabbitX = rabbitPosition[0];
-//            int rabbitY = rabbitPosition[1];
-//            if (X == rabbitX && Y == rabbitY) {
-//                return false;
-//            }
-//        }
-//        for (int i = 0; i < field.dogs.size(); ++i){
-//            int[] dogPosition = field.dogs.get(i).getPosition();
-//            int dogX = dogPosition[0];
-//            int dogY = dogPosition[1];
-//            int[] farmerPosition = field.farmers.get(i).getPosition();
-//            if ((X == dogX && Y == dogY) || (X == farmerPosition[0] && Y == farmerPosition[1])) {
-//                return false;
-//            }
-//        }
+        int counter = 0;
+        for (int i = 0; i < field.rabbits.size(); ++i){
+            int[] rabbitPosition = field.rabbits.get(i).getPosition();
+            int rabbitX = rabbitPosition[0];
+            int rabbitY = rabbitPosition[1];
+            if (X == rabbitX && Y == rabbitY) {
+                counter++;
+            }
+        }
+        for (int i = 0; i < field.dogs.size(); ++i){
+            int[] dogPosition = field.dogs.get(i).getPosition();
+            int dogX = dogPosition[0];
+            int dogY = dogPosition[1];
+            int[] farmerPosition = field.farmers.get(i).getPosition();
+            int farmerX = farmerPosition[0];
+            int farmerY = farmerPosition[1];
+            if ((X == dogX && Y == dogY) || (X == farmerX && Y == farmerY)) {
+                counter++;
+            }
+        }
+        if(counter != 1) return false;
         return true;
     }
 

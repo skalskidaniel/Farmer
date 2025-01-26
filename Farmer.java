@@ -2,7 +2,7 @@
 
 public class Farmer extends Movable {
     public int repairState = 0;
-    public Dog dog;
+    public final Dog dog;
 
     Farmer(int n) {
         FIELD_SIZE = n;

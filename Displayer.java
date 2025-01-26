@@ -5,32 +5,35 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
+
 
 public class Displayer {
 
     private static Displayer instance;
     private final Scanner scanner;
 
-    private Displayer(){
+    private Displayer() {
         scanner = new Scanner(System.in);
     }
 
-    public static Displayer getInstance(){
-        if (instance == null){
+    public static Displayer getInstance() {
+        if (instance == null) {
             instance = new Displayer();
         }
         return instance;
     }
 
-    public static void displayMainMenu(){
+    public static void displayMainMenu() {
         System.out.println("Welcome to farmer visualisation.");
         System.out.println("1. Start simulation");
         System.out.println("2. View history of simulations");
         System.out.println("3. Exit");
     }
 
-    public int getChoice(int min, int max){
+    public int getChoice(int min, int max) {
         int choice = -1;
         boolean validInput = false;
         while (!validInput) {
@@ -76,7 +79,7 @@ public class Displayer {
         }
 
         for (Rabbit rabbit : f.rabbits) {
-            if(f.eatenRabbits.get(f.rabbits.indexOf(rabbit)) == 0) view[rabbit.posY][rabbit.posX] = RABBIT;
+            if (f.eatenRabbits.get(f.rabbits.indexOf(rabbit)) == 0) view[rabbit.posY][rabbit.posX] = RABBIT;
         }
         for (Dog dog : f.dogs) {
             view[dog.posY][dog.posX] = DOG;
@@ -96,26 +99,31 @@ public class Displayer {
         }
     }
 
-    public void displayEndMessage(long duration){
+    public void displayEndMessage(long duration) {
         System.out.println();
         System.out.println("Simulation is over! All of the rabbits are dead");
         System.out.println("Total simulation time = " + duration + " seconds.");
     }
 
-    public void displayHistory(){
+    public void displayHistory() {
         JSONParser parser = new JSONParser();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
         try (FileReader reader = new FileReader("history.json")) {
             JSONArray historyArray = (JSONArray) parser.parse(reader);
+
             for (Object obj : historyArray) {
                 JSONObject jsonObject = (JSONObject) obj;
-                System.out.println("Field Size: " + jsonObject.get("sizeOfField"));
-                System.out.println("Number of Farmers: " + jsonObject.get("numOfFarmers"));
-                System.out.println("Number of Rabbits: " + jsonObject.get("numOfRabbits"));
-                System.out.println("Duration Time: " + jsonObject.get("durationTime") + " seconds");
+                LocalDateTime timestamp = LocalDateTime.parse((String) jsonObject.get("timestamp"));
+                System.out.println("Date: " + timestamp.format(formatter));
+                System.out.println("Field size: " + jsonObject.get("sizeOfField"));
+                System.out.println("Number of farmers: " + jsonObject.get("numOfFarmers"));
+                System.out.println("Number of rabbits: " + jsonObject.get("numOfRabbits"));
+                System.out.println("Duration time: " + jsonObject.get("durationTime") + " seconds");
                 System.out.println();
             }
         } catch (IOException | ParseException e) {
-            System.err.println("Error reading history: " + e.getMessage());
+            System.out.println("History is empty");
         }
     }
 

@@ -20,6 +20,7 @@ public class Dog extends Movable{
         }
     }
 
+    @Override
     public boolean isValidMove(int X, int Y) {
         int counter = 0;
         for (int i = 0; i < field.dogs.size(); ++i) {
@@ -33,10 +34,7 @@ public class Dog extends Movable{
                 counter++;
             }
         }
-        if (counter != 1) {
-            return false;
-        }
-        return true;
+        return counter == 1;
     }
 
     public void findRabbit(int i){

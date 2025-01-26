@@ -1,4 +1,3 @@
-import java.util.Random;
 public class Main {
 
     public static void main(String[] args) {
@@ -18,11 +17,11 @@ public class Main {
         System.out.print("Enter the size of a field (max = " + MAX_FIELD_SIZE + "): ");
         int sizeOfField = displayer.getChoice(1, MAX_FIELD_SIZE);
 
-        System.out.print("Enter the number of farmers (no more than " + sizeOfField/4 + "): ");
-        int numOfFarmers = displayer.getChoice(0, sizeOfField/4);
+        System.out.print("Enter the number of farmers (at least one, no more than " + sizeOfField + "): ");
+        int numOfFarmers = displayer.getChoice(1, sizeOfField);
 
-        System.out.print("Enter the number of rabbits (no more than " + sizeOfField/4 + "): ");
-        int numOfRabbits = displayer.getChoice(0, sizeOfField/4);
+        System.out.print("Enter the number of rabbits (no more than " + sizeOfField + "): ");
+        int numOfRabbits = displayer.getChoice(0, sizeOfField);
 
         Field f = new Field(sizeOfField, numOfFarmers, numOfRabbits);
 

@@ -7,12 +7,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class DatabaseManager {
-    private int sizeOfField;
-    private int numOfFarmers;
-    private int numOfRabbits;
-    private long durationTime;
+    private final LocalDateTime timestamp;
+    private final int sizeOfField;
+    private final int numOfFarmers;
+    private final int numOfRabbits;
+    private final long durationTime;
     private static final String FILE_PATH = "history.json";
 
     public DatabaseManager(int sizeOfField, int numOfFarmers, int numOfRabbits, long durationTime){
@@ -20,10 +22,12 @@ public class DatabaseManager {
         this.numOfFarmers = numOfFarmers;
         this.numOfRabbits = numOfRabbits;
         this.durationTime = durationTime;
+        this.timestamp = LocalDateTime.now();
     }
 
     public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("timestamp", timestamp.toString());
         jsonObject.put("sizeOfField", sizeOfField);
         jsonObject.put("numOfFarmers", numOfFarmers);
         jsonObject.put("numOfRabbits", numOfRabbits);
@@ -46,9 +50,7 @@ public class DatabaseManager {
 
         try (FileReader reader = new FileReader(FILE_PATH)) {
             jsonArray = (JSONArray) new JSONParser().parse(reader);
-        } catch (IOException | ParseException e) {
-            System.err.println("Error reading existing data: " + e.getMessage());
-        }
+        } catch (IOException | ParseException e) {}
 
         jsonArray.add(jsonObject);
 

@@ -50,8 +50,7 @@ public abstract class Movable{
                 counter++;
             }
         }
-        if(counter != 1) return false;
-        return true;
+        return counter == 1;
     }
 
     protected void moveRandomly(){
@@ -63,38 +62,34 @@ public abstract class Movable{
                     moveUp();
                     if (isValidMove(posX, posY)){
                         moved = true;
-                        break;
                     } else {
                         moveDown();
-                        break;
                     }
+                    break;
                 case 1:
                     moveDown();
                     if (isValidMove(posX, posY)){
                         moved = true;
-                        break;
                     } else {
                         moveUp();
-                        break;
                     }
+                    break;
                 case 2:
                     moveLeft();
                     if (isValidMove(posX, posY)){
                         moved = true;
-                        break;
                     } else {
                         moveRight();
-                        break;
                     }
+                    break;
                 case 3:
                     moveRight();
                     if (isValidMove(posX, posY)){
                         moved = true;
-                        break;
                     } else {
                         moveLeft();
-                        break;
                     }
+                    break;
             }
             if (moved){
                 return;

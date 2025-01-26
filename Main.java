@@ -6,18 +6,22 @@ public class Main {
         Displayer displayer = Displayer.getInstance();
 
         Displayer.displayMainMenu();
-        int choice = displayer.getChoice(1, 2);
-        if (choice == 2) {
+        int choice = displayer.getChoice(1, 3);
+        if (choice == 3) {
+            System.exit(0);
+        }
+        else if (choice == 2){
+            displayer.displayHistory();
             System.exit(0);
         }
 
         System.out.print("Enter the size of a field (max = " + MAX_FIELD_SIZE + "): ");
         int sizeOfField = displayer.getChoice(1, MAX_FIELD_SIZE);
 
-        System.out.print("Enter the number of farmers (no more than 1/4 of " + sizeOfField+ "): ");
+        System.out.print("Enter the number of farmers (no more than " + sizeOfField/4 + "): ");
         int numOfFarmers = displayer.getChoice(0, sizeOfField/4);
 
-        System.out.print("Enter the number of rabbits (no more than 1/4 of " + sizeOfField + "): ");
+        System.out.print("Enter the number of rabbits (no more than " + sizeOfField/4 + "): ");
         int numOfRabbits = displayer.getChoice(0, sizeOfField/4);
 
         Field f = new Field(sizeOfField, numOfFarmers, numOfRabbits);
@@ -100,9 +104,28 @@ public class Main {
             }
         });
 
+        long startTime = System.currentTimeMillis();
+
         farmersThread.start();
         dogsThread.start();
         rabbitsThread.start();
         growThread.start();
+
+        try {
+            farmersThread.join();
+            dogsThread.join();
+            rabbitsThread.join();
+            growThread.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime) / 1000;
+
+        displayer.displayEndMessage(duration);
+
+        DatabaseManager databaseManager = new DatabaseManager(sizeOfField, numOfFarmers, numOfRabbits, duration);
+        databaseManager.saveSimulationData();
     }
 }

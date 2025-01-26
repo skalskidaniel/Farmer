@@ -1,3 +1,10 @@
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Displayer {
@@ -19,7 +26,8 @@ public class Displayer {
     public static void displayMainMenu(){
         System.out.println("Welcome to farmer visualisation.");
         System.out.println("1. Start simulation");
-        System.out.println("2. Exit");
+        System.out.println("2. View history of simulations");
+        System.out.println("3. Exit");
     }
 
     public int getChoice(int min, int max){
@@ -85,6 +93,29 @@ public class Displayer {
                 System.out.print(view[i][j]);
             }
             System.out.println();
+        }
+    }
+
+    public void displayEndMessage(long duration){
+        System.out.println();
+        System.out.println("Simulation is over! All of the rabbits are dead");
+        System.out.println("Total simulation time = " + duration + " seconds.");
+    }
+
+    public void displayHistory(){
+        JSONParser parser = new JSONParser();
+        try (FileReader reader = new FileReader("history.json")) {
+            JSONArray historyArray = (JSONArray) parser.parse(reader);
+            for (Object obj : historyArray) {
+                JSONObject jsonObject = (JSONObject) obj;
+                System.out.println("Field Size: " + jsonObject.get("sizeOfField"));
+                System.out.println("Number of Farmers: " + jsonObject.get("numOfFarmers"));
+                System.out.println("Number of Rabbits: " + jsonObject.get("numOfRabbits"));
+                System.out.println("Duration Time: " + jsonObject.get("durationTime") + " seconds");
+                System.out.println();
+            }
+        } catch (IOException | ParseException e) {
+            System.err.println("Error reading history: " + e.getMessage());
         }
     }
 
